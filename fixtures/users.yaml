@@ -1,0 +1,7 @@
+App\Entity\User:
+  user_{1..100}:
+    name: <name()>
+    review: '@review_*'
+    email: <email()>
+    createdAt: <dateTimeBetween("-200 days", "now")>
+    updatedAt: <dateTimeBetween($createdAt, "now")>

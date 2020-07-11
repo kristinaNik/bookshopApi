@@ -1,0 +1,8 @@
+App\Entity\Review:
+  review_{1..200}:
+    rating: <numberBetween(0, 5)>
+    body: <text()>
+    publicationDate: <dateTime()>
+    book: '@book_*'
+    createdAt: <dateTimeBetween("-200 days", "now")>
+    updatedAt: <dateTimeBetween($createdAt, "now")>
