@@ -48,11 +48,6 @@ class Review
     private $publicationDate;
 
     /**
-     * @ORM\OneToMany(targetEntity=User::class, mappedBy="review")
-     */
-    private $users;
-
-    /**
      * @var Book The book this review is about.
      * @Assert\NotNull()
      * @Groups({"book_inventory"})
@@ -60,10 +55,16 @@ class Review
      */
     public $book;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="reviews")
+     */
+    private $user;
+
 
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->user = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -127,33 +128,14 @@ class Review
         $this->book = $book;
     }
 
-    /**
-     * @return Collection|User[]
-     */
-    public function getUsers(): Collection
+    public function getUser(): ?User
     {
-        return $this->users;
+        return $this->user;
     }
 
-    public function addUser(User $user): self
+    public function setUser(?User $user): self
     {
-        if (!$this->users->contains($user)) {
-            $this->users[] = $user;
-            $user->setReview($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->users->contains($user)) {
-            $this->users->removeElement($user);
-            // set the owning side to null (unless already changed)
-            if ($user->getReview() === $this) {
-                $user->setReview(null);
-            }
-        }
+        $this->user = $user;
 
         return $this;
     }

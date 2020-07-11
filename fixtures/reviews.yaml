@@ -4,5 +4,6 @@ App\Entity\Review:
     body: <text()>
     publicationDate: <dateTime()>
     book: '@book_*'
+    user: '@user_*'
     createdAt: <dateTimeBetween("-200 days", "now")>
     updatedAt: <dateTimeBetween($createdAt, "now")>
