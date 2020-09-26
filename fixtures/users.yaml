@@ -1,6 +1,6 @@
 App\Entity\User:
   user_{1..100}:
-    name: <name()>
+    password: '\$2y\$13\$I5uLW8atzRPmC3NcvirYqO2htdMHH1l4uFQ3z0V8wHowO0FqTXl7u'
     email: <email()>
     createdAt: <dateTimeBetween("-200 days", "now")>
     updatedAt: <dateTimeBetween($createdAt, "now")>

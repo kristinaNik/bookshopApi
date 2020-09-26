@@ -20,3 +20,8 @@
 /behat.yml
 /behat.yml.dist
 ###< friends-of-behat/symfony-extension ###
+
+###> lexik/jwt-authentication-bundle ###
+/config/jwt/*.pem
+###< lexik/jwt-authentication-bundle ###
+/.idea
