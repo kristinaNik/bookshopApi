@@ -29,6 +29,21 @@ security:
             guard:
               authenticators:
                 - lexik_jwt_authentication.jwt_token_authenticator
+        books:
+            pattern:   ^/api/books
+            methods: [POST,PUT,PATCH,DELETE]
+            stateless: true
+            guard:
+              authenticators:
+                - lexik_jwt_authentication.jwt_token_authenticator
+
+        reviews:
+            pattern:   ^/api/reviews
+            methods: [POST,PUT,PATCH,DELETE]
+            stateless: true
+            guard:
+              authenticators:
+                - lexik_jwt_authentication.jwt_token_authenticator
         main:
             anonymous: lazy
 
@@ -44,3 +59,5 @@ security:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
           - { path: ^/api/users, roles: IS_AUTHENTICATED_FULLY, methods: [PUT, PATCH, DELETE] }
+          - { path: ^/api/books, roles: IS_AUTHENTICATED_FULLY, methods: [POST, PUT, PATCH, DELETE] }
+          - { path: ^/api/reviews, roles: IS_AUTHENTICATED_FULLY, methods: [POST, PUT, PATCH, DELETE] }
