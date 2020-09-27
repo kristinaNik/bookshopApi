@@ -1,16 +1,19 @@
 <?php
 
 namespace App\Entity;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 trait Timestamps
 {
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Timestampable(on="create")
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Timestampable(on="create")
      */
     private $updatedAt;
 
