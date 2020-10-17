@@ -42,30 +42,11 @@ trait Timestamps
     }
 
     /**
-     * @param mixed $createdAt
+     * @param $updatedAt
      */
     public function setUpdatedAt($updatedAt): void
     {
         $this->updatedAt = $updatedAt;
     }
 
-
-    /**
-     * @ORM\PrePersist()
-     * @throws \Exception
-     */
-    public function createdAt()
-    {
-        $this->createdAt = new \DateTime();
-        $this->updatedAt = new \DateTime();
-    }
-
-    /**
-     * @ORM\PreUpdate()
-     * @throws \Exception
-     */
-    public function updatedAt()
-    {
-        $this->updatedAt = new \DateTime();
-    }
 }

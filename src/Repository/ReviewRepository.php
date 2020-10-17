@@ -47,4 +47,41 @@ class ReviewRepository extends ServiceEntityRepository
         ;
     }
     */
+
+
+    public function findAverageBookRating($bookId, \DateTime $dateFrom, \DateTime $dateTo)
+    {
+        return $this->createQueryBuilder('r')
+            ->select('AVG(r.rating) AS average_rating')
+            ->join('r.book', 'b')
+            ->andWhere('r.createdAt >= :dateFrom')
+            ->andWhere('r.createdAt <= :dateTo')
+            ->andWhere('b.id = :bookId')
+            ->setParameter('bookId', $bookId)
+            ->setParameter('dateFrom', $dateFrom)
+            ->setParameter('dateTo', $dateTo)
+            ->groupBy('r.book')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+
+    }
+
+    public function findBookRatingByUser($userId, \DateTime $dateFrom, \DateTime $dateTo)
+    {
+        return $this->createQueryBuilder('r')
+            ->select(['b.id', 'b.title', 'r.rating'])
+            ->join('r.book', 'b')
+            ->join('r.user', 'u')
+            ->andWhere('r.createdAt >= :dateFrom')
+            ->andWhere('r.createdAt <= :dateTo')
+            ->andWhere('u.id = :userId')
+            ->setParameter('userId', $userId)
+            ->setParameter('dateFrom', $dateFrom)
+            ->setParameter('dateTo', $dateTo)
+            ->groupBy('r.user')
+            ->getQuery()
+            ->getArrayResult();
+
+    }
 }

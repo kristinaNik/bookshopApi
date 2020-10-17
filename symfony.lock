@@ -206,6 +206,9 @@
             "config/packages/nelmio_cors.yaml"
         ]
     },
+    "nesbot/carbon": {
+        "version": "2.41.3"
+    },
     "nikic/php-parser": {
         "version": "v4.3.0"
     },
@@ -216,7 +219,7 @@
         "version": "2.2.3"
     },
     "php": {
-        "version": "7.3"
+        "version": "7.4"
     },
     "phpdocumentor/reflection-common": {
         "version": "2.0.0"
