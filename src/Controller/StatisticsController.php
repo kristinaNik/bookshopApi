@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Interfaces\iStatistics;
 use App\Services\StatisticsService;
 use Carbon\Carbon;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,21 +13,21 @@ use Symfony\Component\Routing\Annotation\Route;
 class StatisticsController extends AbstractController
 {
     /**
-     * @var StatisticsService
+     * @var iStatistics
      */
     private $service;
 
     /**
      * StatisticsController constructor.
-     * @param StatisticsService $service
+     * @param iStatistics $service
      */
-    public function __construct(StatisticsService $service)
+    public function __construct(iStatistics $service)
     {
         $this->service = $service;
     }
 
     /**
-     * @Route("api/statistics/book/{bookId}/", name="statistics")
+     * @Route("api/statistics/book/{bookId}/", name="allStatistics")
      *
      * @param Request $request
      * @param $bookId
@@ -34,6 +35,7 @@ class StatisticsController extends AbstractController
      */
     public function bookStatisticsAll(Request $request, $bookId): JsonResponse
     {
+
         $dateFrom = Carbon::parse($request->query->get('date_from'))->toDate();
         $dateTo =   Carbon::parse($request->query->get('date_to'))->toDate();
 
@@ -44,7 +46,7 @@ class StatisticsController extends AbstractController
     }
 
     /**
-     * @Route("api/statistics/user/{userId}", name="statistics")
+     * @Route("api/statistics/user/{userId}", name="statisticsByUser")
      *
      * @param Request $request
      * @param $userId

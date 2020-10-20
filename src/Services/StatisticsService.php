@@ -7,9 +7,10 @@ namespace App\Services;
 use App\Entity\Book;
 use App\Entity\Review;
 use App\Entity\User;
+use App\Interfaces\iStatistics;
 use Doctrine\ORM\EntityManagerInterface;
 
-class StatisticsService
+class StatisticsService implements iStatistics
 {
     /**
      * @var EntityManagerInterface
