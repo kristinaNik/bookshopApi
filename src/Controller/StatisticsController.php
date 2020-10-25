@@ -3,8 +3,7 @@
 namespace App\Controller;
 
 use App\Interfaces\iStatistics;
-use App\Services\StatisticsService;
-use Carbon\Carbon;
+use App\Traits\ParseDateTrait;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,6 +11,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class StatisticsController extends AbstractController
 {
+    use ParseDateTrait;
+
     /**
      * @var iStatistics
      */
@@ -27,19 +28,17 @@ class StatisticsController extends AbstractController
     }
 
     /**
-     * @Route("api/statistics/book/{bookId}/", name="allStatistics")
+     * @Route("api/statistics/book/{bookId}/", name="statisticsByBook")
      *
      * @param Request $request
      * @param $bookId
      * @return JsonResponse
      */
-    public function bookStatisticsAll(Request $request, $bookId): JsonResponse
+    public function statisticsByBook(Request $request, $bookId): JsonResponse
     {
 
-        $dateFrom = Carbon::parse($request->query->get('date_from'))->toDate();
-        $dateTo =   Carbon::parse($request->query->get('date_to'))->toDate();
-
-        $response = $this->service->getAllBooksStatistics($dateFrom, $dateTo, $bookId);
+        $dates = $this->parseDate($request->query->get('date_from'),$request->query->get('date_to'));
+        $response = $this->service->getStatisticsByBooks($dates->dateFrom, $dates->dateTo, $bookId);
 
         return $this->json($response, 200, []);
 
@@ -52,15 +51,13 @@ class StatisticsController extends AbstractController
      * @param $userId
      * @return JsonResponse
      */
-    public function bookStatisticsByUser(Request $request, $userId): JsonResponse
+    public function statisticsByUser(Request $request, $userId): JsonResponse
     {
-        $dateFrom = Carbon::parse($request->query->get('date_from'))->toDate();
-        $dateTo =   Carbon::parse($request->query->get('date_to'))->toDate();
-
-        $response = $this->service->getBooksStatisticsByUser($dateFrom, $dateTo, $userId);
+        $dates = $this->parseDate($request->query->get('date_from'),$request->query->get('date_to'));
+        $response = $this->service->getStatisticsByUser($dates->dateFrom, $dates->dateTo, $userId);
 
         return $this->json($response, 200, []);
 
-
     }
+
 }

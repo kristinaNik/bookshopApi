@@ -79,9 +79,45 @@ class ReviewRepository extends ServiceEntityRepository
             ->setParameter('userId', $userId)
             ->setParameter('dateFrom', $dateFrom)
             ->setParameter('dateTo', $dateTo)
-            ->groupBy('r.user')
             ->getQuery()
             ->getArrayResult();
 
     }
+
+    public function countRatedBookByUser($userId, \DateTime $dateFrom, \DateTime $dateTo)
+    {
+        return $this->createQueryBuilder('r')
+            ->select('COUNT(r.book)')
+            ->join('r.book', 'b')
+            ->join('r.user', 'u')
+            ->andWhere('r.createdAt >= :dateFrom')
+            ->andWhere('r.createdAt <= :dateTo')
+            ->andWhere('u.id = :userId')
+            ->setParameter('userId', $userId)
+            ->setParameter('dateFrom', $dateFrom)
+            ->setParameter('dateTo', $dateTo)
+            ->groupBy('r.user')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+    }
+
+    public function averageRatingByUser($userId, \DateTime $dateFrom, \DateTime $dateTo)
+    {
+        return $this->createQueryBuilder('r')
+            ->select('AVG(r.rating)')
+            ->join('r.book', 'b')
+            ->join('r.user', 'u')
+            ->andWhere('r.createdAt >= :dateFrom')
+            ->andWhere('r.createdAt <= :dateTo')
+            ->andWhere('u.id = :userId')
+            ->setParameter('userId', $userId)
+            ->setParameter('dateFrom', $dateFrom)
+            ->setParameter('dateTo', $dateTo)
+            ->groupBy('r.user')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+    }
+
 }

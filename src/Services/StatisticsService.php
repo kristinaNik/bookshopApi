@@ -1,8 +1,5 @@
 <?php
-
-
 namespace App\Services;
-
 
 use App\Entity\Book;
 use App\Entity\Review;
@@ -33,7 +30,7 @@ class StatisticsService implements iStatistics
      * @param $bookId
      * @return array
      */
-    public function getAllBooksStatistics(\DateTime $dateFrom, \DateTime $dateTo, $bookId): array
+    public function getStatisticsByBooks(\DateTime $dateFrom, \DateTime $dateTo, $bookId): array
     {
 
         $reviewRepo = $this->em->getRepository(Review::class);
@@ -56,7 +53,7 @@ class StatisticsService implements iStatistics
      * @param $userId
      * @return array
      */
-    public function getBooksStatisticsByUser(\DateTime $dateFrom, \DateTime $dateTo, $userId): array
+    public function getStatisticsByUser(\DateTime $dateFrom, \DateTime $dateTo, $userId): array
     {
         $userRepo = $this->em->getRepository(User::class)->find($userId);
         $reviewRepo = $this->em->getRepository(Review::class);
@@ -66,7 +63,9 @@ class StatisticsService implements iStatistics
             'user' => [
                 'id' => $userId,
                 'email' => $userEmail,
-                'rated_books' => $reviewRepo->findBookRatingByUser($userRepo, $dateFrom, $dateTo)
+                'rated_books' => $reviewRepo->findBookRatingByUser($userRepo, $dateFrom, $dateTo),
+                'count_rated_book'=> $reviewRepo->countRatedBookByUser($userRepo, $dateFrom, $dateTo),
+                'average_rating'  => $reviewRepo->averageRatingByUser($userRepo, $dateFrom, $dateTo)
 
             ]
         ];
