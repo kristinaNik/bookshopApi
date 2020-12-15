@@ -5,5 +5,6 @@ App\Entity\Book:
     description: <text()>
     author: <name()>
     publicationDate: <dateTime()>
+    price: <randomFloat(2, 10.00, 1000.00)>
     createdAt: <dateTimeBetween("-200 days", "now")>
     updatedAt: <dateTimeBetween($createdAt, "now")>

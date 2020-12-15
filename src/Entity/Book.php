@@ -66,6 +66,13 @@ class Book
      */
     private $reviews;
 
+    /**
+     * @Assert\NotNull()
+     * @ORM\Column(type="decimal", precision=7, scale=2)
+     * @var float
+     */
+    private $price;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -145,5 +152,17 @@ class Book
     public function setReviews($reviews): void
     {
         $this->reviews = $reviews;
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(float $price): self
+    {
+        $this->price = $price;
+
+        return $this;
     }
 }
