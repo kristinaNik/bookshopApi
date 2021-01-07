@@ -25,6 +25,24 @@ class StatisticsService implements iStatistics
 
 
     /**
+     * @param $bookId
+     * @return object|null
+     */
+    public function findBookId($bookId)
+    {
+        return $this->em->getRepository(Book::class)->find($bookId);
+    }
+
+    /**
+     * @param $userId
+     * @return object|null
+     */
+    public function findUserId($userId)
+    {
+        return  $userRepo = $this->em->getRepository(User::class)->find($userId);
+    }
+
+    /**
      * @param \DateTime $dateFrom
      * @param \DateTime $dateTo
      * @param $bookId
@@ -41,7 +59,7 @@ class StatisticsService implements iStatistics
            'book' => [
                 'id' => $bookId,
                 'title' => $bookTitle,
-                'average_rating' => $reviewRepo->findAverageBookRating($bookRepo, $dateFrom, $dateTo)
+                'average_rating' => $reviewRepo->findAverageBookRating($bookRepo, $dateFrom, $dateTo) ?? 'No rating available'
             ]
         ];
 
@@ -65,7 +83,7 @@ class StatisticsService implements iStatistics
                 'email' => $userEmail,
                 'rated_books' => $reviewRepo->findBookRatingByUser($userRepo, $dateFrom, $dateTo),
                 'count_rated_book'=> $reviewRepo->countRatedBookByUser($userRepo, $dateFrom, $dateTo),
-                'average_rating'  => $reviewRepo->averageRatingByUser($userRepo, $dateFrom, $dateTo)
+                'average_rating'  => $reviewRepo->averageRatingByUser($userRepo, $dateFrom, $dateTo) ?? 'No available ratings'
 
             ]
         ];

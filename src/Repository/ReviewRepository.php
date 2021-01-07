@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Review;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\AbstractQuery;
 
 /**
  * @method Review|null find($id, $lockMode = null, $lockVersion = null)
@@ -51,8 +52,8 @@ class ReviewRepository extends ServiceEntityRepository
 
     public function findAverageBookRating($bookId, \DateTime $dateFrom, \DateTime $dateTo)
     {
-        return $this->createQueryBuilder('r')
-            ->select('AVG(r.rating) AS average_rating')
+        $query = $this->createQueryBuilder('r')
+            ->select('AVG(r.rating)')
             ->join('r.book', 'b')
             ->andWhere('r.createdAt >= :dateFrom')
             ->andWhere('r.createdAt <= :dateTo')
@@ -61,9 +62,10 @@ class ReviewRepository extends ServiceEntityRepository
             ->setParameter('dateFrom', $dateFrom)
             ->setParameter('dateTo', $dateTo)
             ->groupBy('r.book')
-            ->getQuery()
-            ->getSingleScalarResult();
+            ->getQuery();
 
+
+       return $query->getOneOrNullResult(AbstractQuery::HYDRATE_SINGLE_SCALAR);
 
     }
 
@@ -86,7 +88,7 @@ class ReviewRepository extends ServiceEntityRepository
 
     public function countRatedBookByUser($userId, \DateTime $dateFrom, \DateTime $dateTo)
     {
-        return $this->createQueryBuilder('r')
+        $query = $this->createQueryBuilder('r')
             ->select('COUNT(r.book)')
             ->join('r.book', 'b')
             ->join('r.user', 'u')
@@ -97,14 +99,14 @@ class ReviewRepository extends ServiceEntityRepository
             ->setParameter('dateFrom', $dateFrom)
             ->setParameter('dateTo', $dateTo)
             ->groupBy('r.user')
-            ->getQuery()
-            ->getSingleScalarResult();
+            ->getQuery();
 
+        return (int) $query->getOneOrNullResult(AbstractQuery::HYDRATE_SINGLE_SCALAR);
     }
 
     public function averageRatingByUser($userId, \DateTime $dateFrom, \DateTime $dateTo)
     {
-        return $this->createQueryBuilder('r')
+        $query =  $this->createQueryBuilder('r')
             ->select('AVG(r.rating)')
             ->join('r.book', 'b')
             ->join('r.user', 'u')
@@ -115,8 +117,9 @@ class ReviewRepository extends ServiceEntityRepository
             ->setParameter('dateFrom', $dateFrom)
             ->setParameter('dateTo', $dateTo)
             ->groupBy('r.user')
-            ->getQuery()
-            ->getSingleScalarResult();
+            ->getQuery();
+
+        return $query->getOneOrNullResult(AbstractQuery::HYDRATE_SINGLE_SCALAR);
 
     }
 

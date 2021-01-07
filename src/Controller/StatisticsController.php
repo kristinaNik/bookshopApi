@@ -36,6 +36,10 @@ class StatisticsController extends AbstractController
      */
     public function statisticsByBook(Request $request, $bookId): JsonResponse
     {
+        if ($this->service->findBookId($bookId) === null) {
+           return $this->json(['message' => "The resource does not exist"], 404, []);
+
+        }
 
         $dates = $this->parseDate($request->query->get('date_from'),$request->query->get('date_to'));
         $response = $this->service->getStatisticsByBooks($dates->dateFrom, $dates->dateTo, $bookId);
@@ -53,6 +57,9 @@ class StatisticsController extends AbstractController
      */
     public function statisticsByUser(Request $request, $userId): JsonResponse
     {
+        if ($this->service->findUserId($userId) === null) {
+            return $this->json(['message' => "The resource does not exist"], 404, []);
+        }
         $dates = $this->parseDate($request->query->get('date_from'),$request->query->get('date_to'));
         $response = $this->service->getStatisticsByUser($dates->dateFrom, $dates->dateTo, $userId);
 
