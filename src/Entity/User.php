@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
 use App\Repository\UserRepository;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -13,7 +12,25 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     normalizationContext={"groups"={"user_read"}},
+ *     denormalizationContext={"groups"={"user_write"}},
+ *     itemOperations={
+ *         "get"={
+ *             "method"="GET",
+ *             "normalization_context"={"groups"={"user_extra", "user_read"}},
+ *         },
+ *         "put"={
+ *            "method"="PUT"
+ *        },
+ *        "delete"={
+ *           "method"="DELETE"
+ *        },
+ *        "patch"={
+ *           "method"="PATCH"
+ *        }
+ *     }
+ * )
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity(fields={"email"})
  */
@@ -30,24 +47,28 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups({"user_read", "user_write"})
      * @Assert\Email
      */
     private $email;
 
     /**
      * @ORM\Column(type="json")
+     * @Groups({"user_write", "user_extra"})
      */
     private $roles = [];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Groups({"user_write"})
      */
     private $password;
 
     /**
      * @var
      * @ORM\OneToMany(targetEntity="Review", mappedBy="user", cascade={"persist", "remove"})
+     * @Groups({"user_read"})
      */
     private $reviews;
 

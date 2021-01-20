@@ -389,6 +389,9 @@
     "symfony/mime": {
         "version": "v5.0.6"
     },
+    "symfony/orm-pack": {
+        "version": "v1.0.8"
+    },
     "symfony/phpunit-bridge": {
         "version": "4.3",
         "recipe": {
@@ -465,6 +468,9 @@
     },
     "symfony/serializer": {
         "version": "v5.0.6"
+    },
+    "symfony/serializer-pack": {
+        "version": "v1.0.4"
     },
     "symfony/service-contracts": {
         "version": "v2.0.1"
