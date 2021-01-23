@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Traits\Timestamps;
 use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
