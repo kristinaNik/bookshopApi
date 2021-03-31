@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Order;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -47,4 +48,27 @@ class OrderRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function getCountOfUsers($userId)
+    {
+        $query = $this->createQueryBuilder('o')
+            ->select('COUNT(o.user)')
+            ->join('o.user', 'u')
+            ->andWhere('u.id = :userId')
+            ->setParameter('userId', $userId)
+            ->getQuery();
+        return (int) $query->getOneOrNullResult(AbstractQuery::HYDRATE_SINGLE_SCALAR);
+    }
+
+    public function sumUserOrders($userId)
+    {
+        $query = $this->createQueryBuilder('o')
+            ->select('SUM(o.price)')
+            ->join('o.user', 'u')
+            ->andWhere('u.id = :userId')
+            ->setParameter('userId', $userId)
+            ->getQuery();
+        return (int) $query->getOneOrNullResult(AbstractQuery::HYDRATE_SINGLE_SCALAR);
+    }
+
 }

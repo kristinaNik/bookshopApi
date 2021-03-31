@@ -73,6 +73,18 @@ class User implements UserInterface
      */
     private $reviews;
 
+    /**
+     * @var
+     * @ORM\OneToMany(targetEntity="Order", mappedBy="user")
+     */
+    private $orders;
+
+
+    /**
+     * @var
+     * @ORM\OneToMany(targetEntity="OrderLine", mappedBy="user")
+     */
+    private $orderLines;
 
     public function __construct()
     {
@@ -173,4 +185,22 @@ class User implements UserInterface
     {
         $this->reviews = $reviews;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getOrders()
+    {
+        return $this->orders;
+    }
+
+    /**
+     * @param mixed $orders
+     */
+    public function setOrders($orders): void
+    {
+        $this->orders = $orders;
+    }
+
+
 }

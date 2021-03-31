@@ -74,6 +74,14 @@ class Book
      */
     private $price;
 
+    /**
+     * @Groups({"book_inventory"})
+     * @var
+     * @ORM\OneToMany(targetEntity="App\Entity\Order", mappedBy="book")
+     */
+    private $orders;
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -166,4 +174,22 @@ class Book
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getOrders()
+    {
+        return $this->orders;
+    }
+
+    /**
+     * @param mixed $orders
+     */
+    public function setOrders($orders): void
+    {
+        $this->orders = $orders;
+    }
+
+
 }
